@@ -1,9 +1,10 @@
 import san from 'san'
+import './style.css'
 
 const MyApp = san.defineComponent({
     template: `
         <div>
-            <p>Hello World!</p>
+            <p class="hello">Hello World!</p>
         </div>
     `
 });
