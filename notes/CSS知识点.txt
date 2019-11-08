@@ -1,0 +1,11 @@
+浏览器渲染过程
+1.浏览器加载HTML
+2.浏览器将HTML转换成DOM树
+2.浏览器请求图片，视频等资源以及CSS文件，并解析CSS文件
+3.通过选择器将样式添加到DOM节点上
+
+DOM节点包括元素节点、属性节点、文本节点
+
+不熟悉的属性：
+text-shadow
+常见 font-family: Times New Roman, Georgia, Serif, Arial, Verdana, Sans-serif

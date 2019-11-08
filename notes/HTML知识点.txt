@@ -1,0 +1,11 @@
+1.文档类型
+<!DOCTYPE>声明帮助浏览器正确地显示网页。它不是HTML标签，它表示HTML的版本。HTML5的声明为<!DOCTYPE html>
+
+2.HTML 和 HTML5 的关系
+HTML5 是最新的 HTML 标准
+
+3.meta标签
+meta 标签位于文档的头部，包含"name","http-equiv","content"三个属性，组成对定义网页的不同功能，其中content是必须的。一般有以下两种形式：
+<meta name="" content="" />
+<meta http-equiv="" content="" />
+一个html文件可包含多个meta标签
