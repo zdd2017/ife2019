@@ -9,3 +9,16 @@ DOM节点包括元素节点、属性节点、文本节点
 不熟悉的属性：
 text-shadow
 常见 font-family: Times New Roman, Georgia, Serif, Arial, Verdana, Sans-serif
+list-style 分为 list-style-image、list-style-type(circle、square等)、list-style-position(inside、outside)
+为链接不同状态设置样式时，注意a:hover必须位于a:link和a:visited之后，a:active必须位于a:hover之后  (lvha)
+
+伪类选择器
+:first-child、:hover、:focus等
+伪元素
+::first-line、::before、::after
++(相邻选择器) ~(同级选择器)
+
+不会继承的属性：
+width, margin, padding, border
+控制继承的四个属性值: inherit, initial, unset, revert(有浏览器限制)
+注意：浏览器本身对a元素有默认样式，这个样式的优先级是高于继承父元素的样式的。
