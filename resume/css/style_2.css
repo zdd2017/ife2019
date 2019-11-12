@@ -1,0 +1,36 @@
+body {
+    height: 1000px;
+}
+
+.title {
+    float: left;
+    background: rgb(78, 114, 130);
+    width: 15%;
+    height: 100%;
+    text-align: center;
+    color: #fff;
+    text-shadow: 1px 1px #ccc;
+}
+
+.content-wrap{
+    float: right;
+    width: 83%;
+}
+
+.left{
+    float: left;
+    margin-right: 50px;
+}
+
+.clearfix{
+    clear: both;
+}
+
+h2 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.inglish {
+    font-family: 'Arial';
+}

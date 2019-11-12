@@ -22,3 +22,14 @@ list-style 分为 list-style-image、list-style-type(circle、square等)、list-
 width, margin, padding, border
 控制继承的四个属性值: inherit, initial, unset, revert(有浏览器限制)
 注意：浏览器本身对a元素有默认样式，这个样式的优先级是高于继承父元素的样式的。
+
+盒模型：
+行内元素的margin, padding, border 属性不会影响到其他元素的位置
+标准盒模型(宽，高指的是内容的宽高)
+IE盒模型: border-box(宽，高指的是实际宽高，即content + padding + border)
+
+外边距叠加/塌陷(margin-collapsing)：当两个元素相邻，外边距叠加后取较大的外边距
+
+浮动
+前面的元素浮动优先级比后面的元素高。
+应用清除浮动后该元素及后面的元素将不浮动。浮动规则只能影响使用清除的元素本身，不能影响其他元素。
