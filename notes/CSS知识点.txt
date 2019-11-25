@@ -1,3 +1,4 @@
+第三天
 浏览器渲染过程
 1.浏览器加载HTML
 2.浏览器将HTML转换成DOM树
@@ -5,7 +6,9 @@
 3.通过选择器将样式添加到DOM节点上
 
 DOM节点包括元素节点、属性节点、文本节点
+--------------------------------------------------------------
 
+第四天
 不熟悉的属性：
 text-shadow
 常见 font-family: Times New Roman, Georgia, Serif, Arial, Verdana, Sans-serif
@@ -22,14 +25,76 @@ list-style 分为 list-style-image、list-style-type(circle、square等)、list-
 width, margin, padding, border
 控制继承的四个属性值: inherit, initial, unset, revert(有浏览器限制)
 注意：浏览器本身对a元素有默认样式，这个样式的优先级是高于继承父元素的样式的。
+------------------------------------------------------------------------
 
+第五天和第六天
 盒模型：
 行内元素的margin, padding, border 属性不会影响到其他元素的位置
 标准盒模型(宽，高指的是内容的宽高)
 IE盒模型: border-box(宽，高指的是实际宽高，即content + padding + border)
+-webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
 
-外边距叠加/塌陷(margin-collapsing)：当两个元素相邻，外边距叠加后取较大的外边距
+外边距折叠/塌陷(margin-collapsing)：当两个元素相邻，外边距折叠后保留较大的外边距，忽略较小的。
 
 浮动
 前面的元素浮动优先级比后面的元素高。
 应用清除浮动后该元素及后面的元素将不浮动。浮动规则只能影响使用清除的元素本身，不能影响其他元素。
+clearfix清除浮动：
+.clearfix:after{
+    content: '';
+	display: table;
+	clear: both;
+}
+.clearfix{
+    *zoom: 1;
+}
+将clearfix类加在float元素的父元素上
+-----------------------------------------------------
+
+第七天到第八天
+tab选项卡中position: absolute的应用
+
+定位练习-滑动隐藏要点：
+1.通过label标签的for属性将label标签与表单元素绑定，通过定位隐藏表单元素，这样点击label标签就同点击表单元素自己效果一样。
+2.在滑动面板样式中加上transition属性实现平滑过渡。
+3.通过checkbox的状态选择器来控制滑动面板在不同时刻的位置。(checkbox hack 技术，可以提供无javascript方法通过按钮控制元素)
+
+布局
+三种布局模型：
+1.流动模型(flow)
+2.浮动模型(float)
+3.层模型(layer)(利用定位position)
+使用相对定位时，就算元素被偏移了，它仍然占据着没偏移前的空间；使用绝对定位时，元素在文档流中不占据空间，其相对的是第一个position不为static的父元素。
+z-index属性只对定位元素有效(position属性值为relative, absolute或 fixed的对象)
+
+水平居中使用的{width: 600px; margin: 0 auto;}可改为{max-width: 600px;}防止浏览器窗口小于600px时出现滚动条，能更好地处理小窗口情况。
+
+flex布局
+flex-flow 是 flex-direction 与 flex-wrap 的缩写
+flex 可以指定最小值，如flex: 1 200px; 这表示每个flex首先给出200px的可用空间，然后剩下的可用空间将根据比例分配。
+align-items控制flex项在交叉轴上的位置，justify-content控制flex项在主轴上的位置。
+
+实现左侧固定，右侧自适应两栏布局
+1.两侧都设置为inline-block，使用vertical-align:top来使顶端对齐；右侧宽度：width: calc(100% - 左侧宽度(注意margin,padding等))；设置父容器的font-size:0来消除空格字符的影响。
+2.两侧都设置float，同样要设置右侧width: calc(100% - 左侧宽度)；父元素清除浮动
+3.左侧设置浮动，右侧利用margin-left定位
+4.左侧设置absolute，右侧利用margin-left定位
+5.左侧设置浮动，右侧通过设置overflow: auto形成BFC不与左侧重叠，再设置左侧margin
+6.flex布局
+左侧：flex: 0 0 auto; 右侧：flex: 1 1 auto
+
+触发BFC的情况：
+float的值不为none
+overflow 的值为auto,scroll,hidden
+display的值为table-cell,table-caption,inline-block
+position的值不为relative和static
+
+hr设置颜色和粗细
+hr {
+    border: 0;
+    border-bottom: 1px solid #ccc;
+}
+利用伪元素形成遮罩
+----------------------------------------------------------

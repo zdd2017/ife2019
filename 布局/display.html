@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>布局</title>
+    <meta charset="utf-8">
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        .logo-wrapper {
+            width: 100%;
+            background: rgb(51, 51, 51);
+        }
+
+        .banner-wrapper {
+            width: 100%;
+            background: rgb(102, 187, 51);
+        }
+
+        .logo {
+            width: 960px;
+            height: 60px;
+            line-height: 60px;
+            ;
+            margin: 0 auto;
+            color: #fff;
+        }
+
+        .title {
+            font-size: 20px;
+        }
+
+        .link {
+            float: right;
+        }
+
+        .link a {
+            color: #fff;
+            font-size: 12px;
+        }
+
+        .banner-wrapper {
+            width: 100%;
+            height: 250px;
+        }
+
+        .banner {
+            position: relative;
+            margin: 0 auto;
+            width: 960px;
+            height: 100%;
+        }
+
+        .banner ul {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            text-align: right;
+        }
+
+        .icon li {
+            display: inline-block;
+            border: 1px solid #000;
+            width: 20px;
+            height: 20px;
+            background-color: rgba(255, 255, 255, 0.5);
+            vertical-align: bottom;
+            text-align: center;
+            line-height: 20px;
+            font-size: 10px;
+        }
+
+        .icon .active {
+            height: 30px;
+            margin-top: -10px;
+            background: rgb(255, 255, 255, 0.8);
+            line-height: 38px;
+        }
+
+        .tab {
+            width: 960px;
+            margin: 10px auto 0 auto;
+            font-size: 0;
+        }
+
+        hr {
+            margin: 0;
+            /* background-color: #ccc; */
+            border: 0;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .tab li {
+            text-decoration: none;
+            display: inline-block;
+            border: 1px solid #ccc;
+            height: 30px;
+            line-height: 30px;
+            width: 80px;
+            background: rgb(238, 238, 238);
+            text-align: center;
+            border-bottom: none;
+            border-radius: 10px 10px 0 0;
+            font-size: 14px;
+        }
+
+        .tab .active {
+            position: relative;
+            background: #fff;
+            height: 31px;
+        }
+
+        .tab .active::after {
+            position: absolute;
+            left: 0;
+            bottom: -1px;
+            content: "";
+            width: 80px;
+            height: 1px;
+            background: #fff;
+        }
+
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            width: 940px;
+            margin: 0 auto;
+            align-items: space-between;
+        }
+
+        .column {
+            flex-basis: 100%;
+            display: flex;
+            margin-top: 10px;
+            align-items: space-between;
+        }
+
+        .column div {
+            flex: 1;
+            margin-right: 10px;
+            height: 150px;
+            line-height: 150px;
+            border: 1px solid #999;
+            text-align: center;
+        }
+
+        .footer {
+            background: rgb(102, 102, 102);
+            margin-top: 20px;
+            padding-top: 20px;
+            height: 200px;
+            text-align: center;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top">
+        <div class="logo-wrapper">
+            <div class="logo">
+                <span class="title">Logo</span>
+                <div class="link">
+                    <a href="#">Github</a>
+                    <a href="#">Register</a>
+                    <a href="#">Login</a>
+                </div>
+            </div>
+        </div>
+        <div class="banner-wrapper">
+            <div class="banner">
+                <ul class="icon">
+                    <li>1</li>
+                    <li class="active">2</li>
+                    <li>3</li>
+                    <li>4</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="content-wrapper">
+        <div class="tab-wrapper">
+            <ul class="tab">
+                <li class="active"><a>HOME</a></li>
+                <li><a>PROFILE</a></li>
+                <li><a>ABOUT</a></li>
+            </ul>
+            <hr>
+        </div>
+        <div class="content">
+            <div class="column">
+                <div>Content1</div>
+                <div>Content2</div>
+                <div>Content3</div>
+            </div>
+            <div class="column">
+                <div>Content4</div>
+                <div>Content5</div>
+                <div>Content6</div>
+                <div>Content7</div>
+            </div>
+            <div class="column">
+                <div>Content8</div>
+                <div>Content9</div>
+                <div>Content10</div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        ©2018 ife.baidu.com
+    </div>
+</body>
+
+</html>
