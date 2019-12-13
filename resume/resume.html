@@ -26,6 +26,7 @@
                     <p>电话：15888888888</p>
                     <p>邮箱：<a href="#">qmjianli@163.com</a></p>
                     <p>住址：上海市静安区</p>
+                    <p><button id="interests">兴趣爱好</button></p>
                 </div>
                 <div class="left">
                     <p>出生年月：1991.02</p>
@@ -33,6 +34,7 @@
                     <p>政治面貌：中共党员</p>
                     <p>毕业院校：上海交通大学</p>
                     <p>学历：本科</p>
+                    <p id="content"></p>
                 </div>
             </div>
         </div>
@@ -108,6 +110,13 @@
             </div>
         </div>
     </div>
+    <script>
+        var btn = document.getElementById("interests");
+        var content = document.getElementById("content");
+        btn.onclick = function () {
+            content.innerHTML = "旅游、运动"
+        }
+    </script>
 </body>
 
 </html>
