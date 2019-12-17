@@ -27,6 +27,7 @@
                     <p>邮箱：<a href="#">qmjianli@163.com</a></p>
                     <p>住址：上海市静安区</p>
                     <p><button id="interests">兴趣爱好</button></p>
+                    <p><button id="greet">hello</button></p>
                 </div>
                 <div class="left">
                     <p>出生年月：1991.02</p>
@@ -113,8 +114,17 @@
     <script>
         var btn = document.getElementById("interests");
         var content = document.getElementById("content");
+        var greet = document.getElementById("greet");
         btn.onclick = function () {
             content.innerHTML = "旅游、运动"
+        }
+        greet.onclick = function () {
+            let hour = new Date().getHours();
+            if (6 < hour < 18) {
+                alert('早上好！')
+            } else {
+                alert('晚上好！')
+            }
         }
     </script>
 </body>
