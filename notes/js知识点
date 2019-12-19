@@ -10,3 +10,17 @@ JavaScript是轻量级解释型语言。浏览器接受到JavaScript代码，并
 小结：
 如果脚本无需等待页面解析，且无依赖独立运行，那么应使用 async。
 如果脚本需要等待解析，且依赖于其它脚本，调用这些脚本时应使用 defer，将关联的脚本按所需顺序置于 HTML 中。
+
+可以用常量保存对界面元素的引用，界面元素的文字可能会改变，但引用是不变的。
+
+var 和 let 的区别：
+1.var 可以进行变量提升，let 不可以；
+2.var 可以重复声明变量，let 不可以。
+
+在javascript中，一切东西都可以被当作对象，可以使用相应的对象方法。
+许多你调用（运行或者执行的专业词语）浏览器内置函数时调用的代码并不是使用JavaScript来编写——大多数调用浏览器后台的函数的代码，是使用像C++这样更低级的系统语言编写的，而不是像JavaScript这样的web编程语言
+
+document.querySelector()是推荐的主流方法，可通过id,class,tag选择元素。querySelector()返回找到的第一个元素，querySelectorAll()返回找到的所有元素。
+
+通过HTMLElement.style添加的样式相当于内联样式；
+通过HTMLElement.setAttribute添加的样式不是内联样式。
