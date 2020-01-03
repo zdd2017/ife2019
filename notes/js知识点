@@ -22,5 +22,14 @@ var 和 let 的区别：
 
 document.querySelector()是推荐的主流方法，可通过id,class,tag选择元素。querySelector()返回找到的第一个元素，querySelectorAll()返回找到的所有元素。
 
-通过HTMLElement.style添加的样式相当于内联样式；
-通过HTMLElement.setAttribute添加的样式不是内联样式。
+js动态修改css样式的四种方法(以background-color为例)：
+1.通过HTMLElement.style修改，相当于内联样式
+HTMLElement.style.backgroundColor = "black";
+2.通过HTMLElement.style.cssText修改，相当于内联样式
+HTMLElement.style.cssText = "background-color: black";
+3.通过HTMLElement.setAttribute修改，不是内联样式
+HTMLElement.setAttribute("background-color","black");
+4.通过更改外联的css文件
+<link href="css1.css" rel="stylesheet" type="text/css" id="css"/>
+document.getElementById("css").setAttribute("href","css2.css");
+

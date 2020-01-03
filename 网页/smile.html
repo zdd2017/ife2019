@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Eric的笑容</title>
+    <meta charset="UTF-8">
+    <style>
+        .container {
+            height: 480px;
+            width: 480px;
+            background-image: url('./images/smile.jpg');
+            background-position: 0 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" id="container">
+    </div>
+
+    <script>
+        let container = document.querySelector("#container");
+        let distance = 0;
+        let timer = setInterval(setAnimation, 100);
+        function setAnimation() {
+            if (distance > -7680) {
+                distance -= 480
+                container.style.backgroundPosition = `0 ${distance}px`;
+            } else {
+                clearInterval(timer);
+                timer = null;
+            }
+        }
+    </script>
+</body>
+
+</html>
