@@ -25,11 +25,19 @@ document.querySelector()是推荐的主流方法，可通过id,class,tag选择�
 js动态修改css样式的四种方法(以background-color为例)：
 1.通过HTMLElement.style修改，相当于内联样式
 HTMLElement.style.backgroundColor = "black";
-2.通过HTMLElement.style.cssText修改，相当于内联样式
+2.通过HTMLElement.style.cssText修改，相当于内联样式(cssText 的本质就是设置 HTML 元素的 style 属性值。)
 HTMLElement.style.cssText = "background-color: black";
 3.通过HTMLElement.setAttribute修改，不是内联样式
 HTMLElement.setAttribute("background-color","black");
 4.通过更改外联的css文件
 <link href="css1.css" rel="stylesheet" type="text/css" id="css"/>
 document.getElementById("css").setAttribute("href","css2.css");
+ps:还可以通过修改className来改变样式
+
+堆内存和栈内存：栈内存空间有限，由操作系统自动分配和释放，堆内存空间较大，需要手动申请和释放，常用new关键字来分配。
+
+队列是先进先出,栈是先进后出
+
+sort()方法默认排序方法是将数组元素转化成字符串，然后比较它们的字符编码顺序排列。如果指明了compareFunction,那么数组会按照调用该函数的返回值排序。
+https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
 
