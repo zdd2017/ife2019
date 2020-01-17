@@ -125,8 +125,20 @@
             [8, "Area2-2-1", 6],
         ];
 
-        var menuObject = {};
-        for (item in menuObject) { }
+        function arrConvertToObj(parentId) {
+            var menuObj = {};
+            for (var i = 0; i < menuArr.length; i++) {
+                if (menuArr[i][2] === parentId) {
+                    menuObj[menuArr[i][0]] = {
+                        name: menuArr[i][1],
+                        subMenu: arrConvertToObj(menuArr[i][0])
+                    }
+                }
+            }
+            return menuObj;
+        }
+        console.log(arrConvertToObj(-1))
+
 
     </script>
 </body>
