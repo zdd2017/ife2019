@@ -59,57 +59,68 @@
         }
 
         // 假设id和name均不会重复，根据输入name找到对应的id
-        function findIdByName(name) {
-            tree.forEach((value, index) => {
-                if (value === 'name') {
-                    return tree[id]
-                }
-            })
+        function findIdByName(obj, name) {
+            if (obj.name === name) {
+                console.log(obj.id)
+            }
+            if (obj.left) {
+                findIdByName(obj.left, name)
+            }
+            if (obj.right) {
+                findIdByName(obj.right, name)
+            }
         }
+        // findIdByName(tree, 'Saber')
 
         // 假设id和name均不会重复，根据输入id找到对应的name
-        function findNameById(id) {
-
+        function findNameById(obj, id) {
+            if (obj.id === id) {
+                console.log(obj.name)
+            }
+            if (obj.left) {
+                findNameById(obj.left, id)
+            }
+            if (obj.right) {
+                findNameById(obj.right, id)
+            }
         }
+        // findNameById(tree, 10)
 
         // 把这个对象中所有的名字以“前序遍历”的方式全部输出到console中
         function getListWithDLR(obj) {
-            for (var i in obj) {
-                if (i === 'name') {
-                    console.log(obj[i])
-                }
-                if (i === 'left') {
-                    getListWithDLR(obj[i])
-                }
-                if (i === 'right') {
-                    getListWithDLR(obj[i])
-                }
+            console.log(obj.name)
+            if (obj.left) {
+                getListWithDLR(obj.left)
+            }
+            if (obj.right) {
+                getListWithDLR(obj.right)
             }
         }
         // getListWithDLR(tree)
+
         // 把这个对象中所有的名字以“中序遍历”的方式全部输出到console中
         function getListWithLDR(obj) {
-            for (var i in obj) {
-                if (i === 'left') {
-                    if (typeof obj[i] === 'object') {
-                        getListWithDLR(obj[i])
-                    } else {
-                        console.log(obj['name'])
-                    }
-                }
-                if (i === 'name') {
-                    console.log(obj[i])
-                }
-                if (i === 'right') {
-                    getListWithDLR(obj[i])
-                }
+            if (obj.left) {
+                getListWithLDR(obj.left)
+            }
+            console.log(obj.name)
+            if (obj.right) {
+                getListWithLDR(obj.right)
             }
         }
-        getListWithLDR(tree)
-        // 把这个对象中所有的名字以“后序遍历”的方式全部输出到console中
-        function getListWithLRD() {
+        // getListWithLDR(tree)
 
+        // 把这个对象中所有的名字以“后序遍历”的方式全部输出到console中
+        function getListWithLRD(obj) {
+            if (obj.left) {
+                getListWithLRD(obj.left);
+            }
+            if (obj.right) {
+                getListWithLRD(obj.right);
+            }
+            console.log(obj.name)
         }
+        // getListWithLRD(tree)
     </script>
 </body>
 
