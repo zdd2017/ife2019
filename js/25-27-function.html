@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <div id="select-container">
+        <!-- <p id="time-container1"></p>
+        <p id="time-container2"></p> -->
+
+        <select id="year-select">
+        </select>
+
+        <select id="month-select">
+        </select>
+
+        <select id="day-select">
+        </select>
+
+        <select id="hour-select">
+        </select>
+
+        <select id="minute-select">
+        </select>
+
+        <select id="second-select">
+        </select>
+
+        <p id="result-wrapper"></p>
+    </div>
+    <script>
+        // 时间选择器
+        var yearSelect = document.querySelector("#year-select")
+        var monthSelect = document.querySelector("#month-select")
+        var daySelect = document.querySelector("#day-select")
+        var hourSelect = document.querySelector("#hour-select")
+        var minuteSelect = document.querySelector("#minute-select")
+        var secondSelect = document.querySelector("#second-select")
+        var selectContainer = document.querySelector("#select-container")
+        var resultWrapper = document.querySelector("#result-wrapper")
+
+        var selects = document.querySelectorAll("select");
+        for (var i = 0; i < selects.length; i++) {
+            selects[i].addEventListener("change", function () {
+                if (timer) {
+                    clearInterval(timer)
+                    timer = null;
+                } else {
+                    var timer = setInterval(updateTime
+                        , 1000)
+                }
+            })
+        }
+
+        // 定义用来对比的标准时间
+        function updateTime() {
+            const defaultDate = new Date(yearSelect.value + '-' + monthSelect.value + '-' + daySelect.value + " " + hourSelect.value + ':' + minuteSelect.value + ":" + secondSelect.value)
+            const defaultDateText = showTime(defaultDate, 1);
+            var date = new Date()
+            var diff = parseInt(Math.abs(date.getTime() - defaultDate.getTime()) / 1000)
+            var d = parseInt(diff / (24 * 3600))
+            var h = parseInt((diff - d * 24 * 3600) / 3600)
+            var m = parseInt((diff - d * 24 * 3600 - h * 3600) / 60)
+            var s = diff - d * 24 * 3600 - h * 3600 - m * 60
+            var dateText = d + '天 ' + h + '小时 ' + m + '分 ' + s + '秒'
+            var result1 = '现在距离 ' + defaultDateText + ' 还有 ' + dateText;
+            var result2 = '现在距离' + defaultDateText + '已经过去' + dateText;
+            if (date.getTime() < defaultDate.getTime()) {
+                resultWrapper.innerHTML = result1;
+            } else {
+                resultWrapper.innerHTML = result2;
+            }
+        }
+        // 下拉列表初始化（年份范围为2000-2032）
+        setOptions(yearSelect, 2000, 2032)
+        setOptions(monthSelect, 1, 12)
+        setOptions(daySelect, 1, 31)
+        setOptions(hourSelect, 0, 23)
+        setOptions(minuteSelect, 0, 59)
+        setOptions(secondSelect, 0, 59)
+
+        // 年月日联动
+        yearSelect.addEventListener("change", setDay);
+        monthSelect.addEventListener("change", setDay);
+
+        function setDay() {
+            var year = yearSelect.value;
+            var month = monthSelect.value;
+            // 重新计算日期
+            daySelect.options.length = 0;
+            if (month === '2') {
+                if (isPinYear(parseInt(year))) {
+                    setOptions(daySelect, 1, 28);
+                } else {
+                    setOptions(daySelect, 1, 29);
+                }
+            } else if (month === '4' || month === '6' || month === '9' || month === '11') {
+                setOptions(daySelect, 1, 30);
+            } else {
+                setOptions(daySelect, 1, 31);
+            }
+        }
+
+        function setOptions(ele, m, n) {
+            for (var i = m; i <= n; i++) {
+                var option = document.createElement("option");
+                option.setAttribute("value", i);
+                var optionText = document.createTextNode(("" + i));
+                ele.appendChild(option);
+                option.appendChild(optionText);
+            }
+        }
+
+        // 判断平年闰年
+        function isPinYear(year) {
+            if ((year % 4) === 0) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        // 机器人前进
+        function Go() {
+            console.log("Go");
+        }
+
+        function GoSteps(n) {
+            if (n === undefined || n === true) {
+                Go()
+            }
+            else {
+                if (!n || n < 0) {
+                    return false;
+                } else {
+                    var m = Math.floor(n)
+                    while (m--) {
+                        Go()
+                    }
+                }
+            }
+        }
+
+        // GoSteps(10); // Go 10次
+        // GoSteps(1); // Go 1次
+        // GoSteps(); // Go 1次，认为缺少参数时，默认参数为1
+        // GoSteps(0);  // 0次
+        // GoSteps(-1);  // 0次
+        // GoSteps(1.4);  // Go 1次
+        // GoSteps(1.6);  // Go 1次
+        // GoSteps(-1);  // 0次
+        // GoSteps(true);  // Go 1次
+        // GoSteps(false);  // 0次
+        // GoSteps("Test");  // 0次
+        // GoSteps(NaN);  // 0次
+        // GoSteps(null);  // 0次
+
+        // Date对象的练习
+        // 在页面中显示当前日期及时间，按秒更新，格式为 YYYY 年 MM 月 DD 日 星期 D HH:mm:ss
+        var timeContainer1 = document.querySelector("#time-container1");
+        var timeContainer2 = document.querySelector("#time-container2")
+        function showTime(date, type) {
+            var y = addZero(date.getFullYear());
+            var M = addZero(date.getMonth() + 1);
+            var d = addZero(date.getDate());
+            var h = addZero(date.getHours());
+            var m = addZero(date.getMinutes());
+            var s = addZero(date.getSeconds());
+            if (type === 1) {
+                var D = getDay1(date.getDay());
+                var time = formatTime1(y, M, d, D, h, m, s);
+                return time;
+
+            } else if (type === 2) {
+                var D = getDay2(date.getDay());
+                var time = formatTime2(y, M, d, D, h, m, s);
+                return time;
+            }
+        }
+
+        // 获得周几
+        function getDay1(day) {
+            switch (day) {
+                case 1: return '一'; break;
+                case 2: return '二'; break;
+                case 3: return '三'; break;
+                case 4: return '四'; break;
+                case 5: return '五'; break;
+                case 6: return '六'; break;
+                default: return '日'; break;
+            }
+        }
+        function getDay2(day) {
+            switch (day) {
+                case 1: return 'Monday'; break;
+                case 2: return 'Tuesday'; break;
+                case 3: return 'Wednesday'; break;
+                case 4: return 'Thursday'; break;
+                case 5: return 'Friday'; break;
+                case 6: return 'Saturday'; break;
+                default: return 'Sunday'; break;
+            }
+        }
+
+        // 时间格式化
+        function formatTime1(y, M, d, D, h, m, s) {
+            return y + ' 年 ' + M + ' 月 ' + d + " 日 " + " 星期 " + D + ' ' + h + ":" + m + ":" + s
+        }
+        function formatTime2(y, M, d, D, h, m, s) {
+            return (h > 12 ? (y + '-' + M + '-' + d + ' ' + D + ' ' + addZero(h - 12) + ":" + m + ":" + s + ' PM') : (y + '-' + M + '-' + d + D + ' ' + h + ":" + m + ":" + s + ' AM'))
+        }
+
+        // 补零
+        function addZero(num) {
+            return num < 10 ? '0' + num : num;
+        }
+        // timeContainer1.innerHTML = showTime(new Date(), 1);
+        // timeContainer2.innerHTML = showTime(new Date(),2);
+        // setInterval(function () { 
+        //     timeContainer1.innerHTML = showTime(new Date(),1);
+        //     timeContainer2.innerHTML = showTime(new Date(),2); 
+        // }, 1000)
+    </script>
+</body>
+
+</html>
