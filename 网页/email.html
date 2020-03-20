@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>email</title>
+    <meta charset="utf-8">
+    <style>
+        .email-input {
+            box-sizing: border-box;
+            width: 200px;
+            color: #999;
+        }
+
+        .email-sug {
+            display: none;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 10px;
+            width: 200px;
+            list-style: none;
+            border: 1px solid #999;
+            font-size: 12px;
+            color: #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <input id="email-input" class="email-input" type="text">
+        <ul id="email-sug-wrapper" class="email-sug"></ul>
+    </div>
+    <script>
+        var postfixList = ['163.com', 'gmail.com', '126.com', 'qq.com', '263.net'];
+        var emailInput = document.querySelector("#email-input");
+        var emailSug = document.querySelector("#email-sug-wrapper");
+        let currentIndex = 0;
+        let mouseCurrentIndex = "";
+        emailInput.focus();
+        emailInput.addEventListener("input", function (e) {
+            emailSug.innerHTML = "";
+            let value = trim(e.target.value)
+            if (value) {
+                emailSug.style.display = "block";
+                flag = false;
+                // 判断是否包含@
+                if (value.indexOf("@") > -1) {
+                    var prefix = value.slice(0, value.indexOf("@"))
+                    var postfix = value.slice(value.indexOf("@") + 1)
+                    isContain(postfix)
+                    // 判断是否匹配已有项
+                    if (flag === true) {
+                        for (var i = 0; i < postfixList.length; i++) {
+                            if (postfixList[i].indexOf(postfix) > -1) {
+                                var item = document.createElement("li");
+                                var text = document.createTextNode(prefix + '@' + postfixList[i]);
+                                item.appendChild(text);
+                                emailSug.appendChild(item);
+                            }
+                        }
+                    } else {
+                        for (var i = 0; i < postfixList.length; i++) {
+                            var item = document.createElement("li");
+                            var text = document.createTextNode(prefix + '@' + postfixList[i]);
+                            item.appendChild(text);
+                            emailSug.appendChild(item);
+                        }
+                    }
+                } else {
+                    for (var i = 0; i < postfixList.length; i++) {
+                        var item = document.createElement("li");
+                        var text = document.createTextNode(value + '@' + postfixList[i]);
+                        item.appendChild(text);
+                        emailSug.appendChild(item);
+                    }
+                }
+                var sugs = document.querySelectorAll("li");
+                sugs[0].style.background = "rgb(189,224,234)"
+                for (var i = 0; i < sugs.length; i++) {
+                    sugs[i].index = i;
+                }
+            } else {
+                emailSug.style.display = "none";
+            }
+        })
+
+        // 划过提示邮箱
+        emailSug.addEventListener("mouseover", function (e) {
+            var sugs = document.querySelectorAll("li")
+            if (mouseCurrentIndex && mouseCurrentIndex !== currentIndex) {
+                sugs[mouseCurrentIndex].style.background = "#fff";
+            }
+            mouseCurrentIndex = e.target.index;
+            if (e.target.nodeName === 'LI' && e.target.index !== currentIndex) {
+                e.target.style.background = "rgb(255, 197, 207)"
+            }
+        })
+        // 点击提示邮箱
+        emailSug.addEventListener("click", function (e) {
+            if (e.target.nodeName === 'LI') {
+                emailInput.value = e.target.innerHTML;
+                emailSug.style.display = "none";
+                emailInput.focus();
+            }
+        })
+
+        window.addEventListener("keydown", function (e) {
+            if (emailSug.style.display === 'block') {
+                var sugs = document.querySelectorAll("li");
+                if (e.key === 'ArrowUp') {
+                    if (currentIndex !== mouseCurrentIndex) {
+                        sugs[currentIndex].style.background = "#fff";
+                    }
+                    currentIndex = currentIndex === 0 ? postfixList.length - 1 : currentIndex - 1;
+                    if (currentIndex !== mouseCurrentIndex) {
+                        sugs[currentIndex].style.background = "rgb(189,224,234)"
+                    }
+
+                } else if (e.key === 'ArrowDown') {
+                    if (currentIndex !== mouseCurrentIndex) {
+                        sugs[currentIndex].style.background = "#fff";
+                    }
+                    currentIndex = currentIndex === postfixList.length - 1 ? 0 : currentIndex + 1;
+                    if (currentIndex !== mouseCurrentIndex) {
+                        sugs[currentIndex].style.background = "rgb(189,224,234)"
+                    }
+                } else if (e.key === 'Enter') {
+                    emailInput.value = sugs[currentIndex].innerHTML;
+                    emailSug.style.display = "none";
+                    emailInput.focus();
+                }
+            }
+        })
+
+        // 过滤首尾空格
+        function trim(val) {
+            return val.replace(/(^\s*)|(\s*$)/g, "")
+        }
+        function isContain(text) {
+            for (var i = 0; i < postfixList.length; i++) {
+                if (postfixList[i].indexOf(text) == 0) {
+                    flag = true;
+                    return;
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
