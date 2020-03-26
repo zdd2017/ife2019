@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>表格</title>
+</head>
+
+<body>
+    <div id="region-select-wrapper">
+        <!-- <input type="checkbox" name="region" value="全选">全选
+        <input type="checkbox" name="region" value="华东">华东
+        <input type="checkbox" name="region" value="华南">华南
+        <input type="checkbox" name="region" value="华北">华北 -->
+    </div>
+
+    <div id="product-select-wrapper">
+        <!-- <input type="checkbox" name="type" value="全选">全选
+        <input type="checkbox" name="type" value="手机">手机
+        <input type="checkbox" name="type" value="笔记本">笔记本
+        <input type="checkbox" name="type" value="智能音箱">智能音箱 -->
+    </div>
+
+    <div id="search-wrapper">
+        <button id="search-btn">查询</button>
+    </div>
+
+    <!-- <input type="radio"> -->
+    <div id="table-wrapper">
+        <table border="1">
+            <thead>
+
+            </thead>
+            <tbody id="goods-table"></tbody>
+        </table>
+    </div>
+
+    <script src="./js/ife31data.js"></script>
+    <script>
+        var regionSelect = document.querySelector("#region-select-wrapper");
+        var productSelect = document.querySelector("#product-select-wrapper");
+        var tableWrapper = document.querySelector("#table-wrapper");
+        var goodsTable = document.querySelector("#goods-table");
+        var searchBtn = document.querySelector("#search-btn");
+        var selectedData = [];
+        var selectedRegions = [];
+        var selectedProducts = [];
+
+        setCheckbox(regionSelect, [{ value: '华东', text: '华东' }, { value: '华南', text: '华南' }, { value: '华北', text: '华北' }])
+        setCheckbox(productSelect, [{ value: '手机', text: '手机' }, { value: '笔记本', text: '笔记本' }, { value: '智能音箱', text: '智能音箱' }])
+
+        // 生成多选框
+        function setCheckbox(container, checkboxes) {
+            var checkAllHTML = "<input type='checkbox' name='region' value='0' checkbox-type='all'>全选"
+            var checkboxesHTML = "";
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxesHTML += "<input type='checkbox' name='region' value=" + checkboxes[i].value + ">" + checkboxes[i].text;
+            }
+            container.innerHTML = checkAllHTML + checkboxesHTML;
+            container.addEventListener("click", function (e) {
+                var checkboxes = container.querySelectorAll("input");
+                if (e.target.getAttribute('checkbox-type') === 'all') {
+                    if (e.target.checked) {
+                        for (var i = 1; i < checkboxes.length; i++) {
+                            checkboxes[i].checked = true;
+                        }
+                    }
+                } else {
+                    var allChecked = true;
+                    var notChecked = true;
+                    for (var i = 1; i < checkboxes.length; i++) {
+                        if (!checkboxes[i].checked) {
+                            allChecked = false;
+                        } else {
+                            notChecked = false;
+                        }
+                    }
+                    if (allChecked) {
+                        checkboxes[0].checked = true;
+                    } else {
+                        checkboxes[0].checked = false;
+                    }
+                    if (notChecked) {
+                        e.target.checked = true;
+                    }
+                }
+            })
+        }
+
+        searchBtn.addEventListener("click", function () {
+            goodsTable.innerHTML = "";
+            getData();
+            renderTable();
+        })
+
+        // 全选 
+        function checkAll(e, items) {
+            if (e.target.value === '全选') {
+                if (items[0].checked) {
+                    for (var i = 1; i < items.length; i++) {
+                        items[i].checked = true;
+                    }
+                }
+            } else {
+                var allChecked = true;
+                var notChecked = true;
+                for (var i = 1; i < items.length; i++) {
+                    if (!items[i].checked) {
+                        allChecked = false;
+                    } else {
+                        notChecked = false;
+                    }
+                }
+                if (allChecked) {
+                    items[0].checked = true;
+                } else {
+                    items[0].checked = false;
+                }
+                if (notChecked) {
+                    e.target.checked = true;
+                }
+            }
+        }
+
+        initData();
+
+        // 初始化
+        function initData() {
+            getData();
+            renderTable();
+        }
+
+        // 获取数据
+        function getData() {
+            selectedData = [];
+            var regions = regionSelect.querySelectorAll("input");
+            var products = productSelect.querySelectorAll("input");
+            selectedRegions = [];
+            selectedProducts = [];
+            // 获取勾选地区
+            for (var i = 1; i < regions.length; i++) {
+                if (regions[i].checked) {
+                    selectedRegions.push(regions[i].value);
+                }
+            }
+            // 获取勾选商品
+            for (var i = 1; i < products.length; i++) {
+                if (products[i].checked) {
+                    selectedProducts.push(products[i].value);
+                }
+            }
+            for (var i = 0; i < sourceData.length; i++) {
+                // 选了一个地区和多个商品
+                if (selectedRegions.length === 1 && selectedProducts.length > 1) {
+                    for (var j = 0; j < selectedRegions.length; j++) {
+                        if (sourceData[i].region === selectedRegions[j]) {
+                            for (var k = 0; k < selectedProducts.length; k++)
+                                if (sourceData[i].product === selectedProducts[k]) {
+                                    selectedData.push(sourceData[i]);
+                                }
+                        }
+                    }
+                } else {
+                    for (var j = 0; j < selectedProducts.length; j++) {
+                        if (sourceData[i].product === selectedProducts[j]) {
+                            for (var k = 0; k < selectedRegions.length; k++)
+                                if (sourceData[i].region === selectedRegions[k]) {
+                                    selectedData.push(sourceData[i]);
+                                }
+                        }
+                    }
+                }
+            }
+        }
+
+        // 渲染表格
+        function renderTable() {
+            // 渲染表头
+            var tableHead = document.querySelector("thead");
+            var text = ""
+            // 选了一个地区和多个商品
+            if (selectedRegions.length === 1 && selectedProducts.length > 1) {
+                text = "<th>地区</th><th>商品类型</th>"
+                selectedData = selectedData.map(item => {
+                    return {
+                        region: item.region,
+                        product: item.product,
+                        sale: item.sale
+                    }
+                });
+            } else {
+                text = "<th>商品类型</th><th>地区</th>"
+            }
+            tableHead.innerHTML = "<tr>" + text + "<th>一月</th><th>二月</th><th>三月</th><th>四月</th><th>五月</th><th>六月</th><th>七月</th><th>八月</th><th>九月</th><th>十月</th><th>十一月</th><th>十二月</th></tr>"
+            // 渲染表格内容
+            for (var i = 0; i < selectedData.length; i++) {
+                var goodstr = document.createElement("tr");
+                for (var j in selectedData[i]) {
+                    if (j === 'sale') {
+                        for (var k = 0; k < selectedData[i][j].length; k++) {
+                            var salestd = document.createElement("td");
+                            var salestext = document.createTextNode(selectedData[i][j][k]);
+                            salestd.appendChild(salestext);
+                            goodstr.appendChild(salestd);
+                        }
+                    }
+                    else {
+                        var goodstd = document.createElement("td");
+                        var goodstext = document.createTextNode(selectedData[i][j]);
+                        goodstd.appendChild(goodstext);
+                        goodstr.appendChild(goodstd);
+                    }
+                    goodsTable.appendChild(goodstr)
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

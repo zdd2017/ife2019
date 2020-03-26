@@ -47,3 +47,55 @@ https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects
 
 年月日联动选择器
 
+怎么知道当前选中的是哪一个提示
+给每个li绑定一个index
+
+前端下载文件
+1.利用new Blob()将内容转化为blob数据格式
+2.利用window.URL.createObjectURL()创建引用url
+3.新建a标签，设置url,触发点击自动下载事件
+
+示例代码：
+const config = {
+  name: 'lsqy',
+  password: 'yourpassword',
+  ak: 'XXXXXXXXXX',
+  sk: 'XXXXXXXXXX'
+}
+
+const blobContent = new Blob(
+  [JSON.stringify(config, null, 2)],
+  {type : 'application/json'}
+);
+
+const blobUrl = window.URL.createObjectURL(blobContent)
+
+downloadFileByBlob(blobUrl, 'config.json')
+
+function downloadFileByBlob(blobUrl, filename) {
+  const eleLink = document.createElement('a')
+  eleLink.download = filename
+  eleLink.style.display = 'none'
+  eleLink.href = blobUrl
+  // 触发点击
+  document.body.appendChild(eleLink)
+  eleLink.click()
+  // 然后移除
+  document.body.removeChild(eleLink)
+}
+参考链接：https://segmentfault.com/a/1190000020263879?utm_source=tag-newest
+
+通过navigator.userAgent判断是哪款浏览器
+
+navigator.userAgent字符串中，
+有“firefox”的是火狐浏览器，
+有“chrome”也有“safari”的是谷歌浏览器，
+只有“safari”或“iphone”的是苹果浏览器，
+其他有(一堆".NET")是IE浏览器。
+
+js清除表格数据保留表头：将表头放在<theader>标签里，内容放在<tbody>标签里，清空<tbody>标签就相当于清空了表格数据
+在点击之前它是不是唯一一个被勾选的？如果是的话，阻止这次点击默认事件（？），或者立马又将其checked状态置为真
+
+注意代码复用
+
+关于跳出循环、三个数组的比较
