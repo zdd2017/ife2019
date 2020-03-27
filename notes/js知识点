@@ -99,3 +99,7 @@ js清除表格数据保留表头：将表头放在<theader>标签里，内容放
 注意代码复用
 
 关于跳出循环、三个数组的比较
+
+用svg画图
+document.createElementNS() 创建带有命名空间的元素节点
+求数组最大值，ES6: Math.max(arr); ES5: Math.max.apply(Math,arr)

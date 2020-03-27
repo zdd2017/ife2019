@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>canvas小练习</title>
+</head>
+
+<body onload="draw()">
+    <div>
+        <canvas id="canvas" width="500px" height="500px"></canvas>
+    </div>
+    <script>
+        function draw() {
+            var canvas = document.querySelector("#canvas");
+            if (canvas.getContext) {
+                var ctx = canvas.getContext('2d');
+                // 直线
+                ctx.beginPath();
+                ctx.moveTo(0, 50);
+                ctx.lineTo(100, 50);
+                ctx.stroke();
+
+                // 矩形
+                ctx.beginPath();
+                ctx.rect(120, 0, 100, 50);
+                ctx.stroke();
+
+                // 圆形
+                ctx.beginPath();
+                ctx.arc(300, 50, 50, 0, Math.PI * 2);
+                ctx.stroke();
+
+                // 文本
+                ctx.font = "30px serif";
+                ctx.strokeText("Hello World!", 0, 100);
+
+                // 时钟
+                ctx.beginPath();
+                ctx.arc(60, 200, 55, 0, Math.PI * 2);
+                for (var i = 1; i < 13; i++) {
+                    var delta = (3 - i) * 30 * Math.PI / 180
+                    var x = 60 + 50 * Math.cos(delta);
+                    var y = 200 - 50 * Math.sin(delta);
+                    ctx.font = "12px serif";
+                    ctx.strokeText(i, x, y);
+                    // 文字水平居中
+                    ctx.textAlign = "center";
+                    // 文字垂直居中
+                    ctx.textBaseline = 'middle';
+                }
+
+                ctx.moveTo(60, 200);
+                ctx.lineTo(60, 160);
+                ctx.moveTo(60, 200);
+                ctx.lineTo(60 + 30 * Math.cos(-120 * Math.PI / 180), 200 - 30 * Math.sin(-120 * Math.PI / 180));
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(60, 200);
+                ctx.lineTo(60 + 50 * Math.cos(30 * Math.PI / 180), 200 - 50 * Math.sin(30 * Math.PI / 180))
+                ctx.strokeStyle = "red";
+                ctx.stroke();
+            }
+        }
+    </script>
+</body>
+
+</html>
