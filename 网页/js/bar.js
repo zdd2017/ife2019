@@ -1,5 +1,5 @@
 function drawBar(data) {
-    var chartContanier = document.querySelector("#chart-container");
+    var chartContanier = document.querySelector("#bar-container");
     //定义好柱状图绘制区域的高度，宽度，轴的高度，宽度
     var width = 500;
     var height = 200;
@@ -15,7 +15,6 @@ function drawBar(data) {
     var maxSale = Math.max.apply(Math, data.sale);
     // 根据Max和你用来绘制柱状图图像区域的高度，进行一个数据和像素的折算比例
     var ratio = (axisHeight - 20) / maxSale
-    console.log(maxSale)
     // 绘制横轴及纵轴
     var chart = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     chart.setAttribute('width', width + 'px');
@@ -25,6 +24,7 @@ function drawBar(data) {
     var axis = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
     axis.setAttribute("points", "0 0 0 " + axisHeight + " " + axisWidth + " " + axisHeight);
     axis.setAttribute('style', "fill:white;stroke:" + axisColor + ";stroke-width:2;");
+    chartContanier.innerHTML = "";
     chartContanier.appendChild(chart);
     chart.appendChild(axis);
     for (var i = 0; i < data.sale.length; i++) {

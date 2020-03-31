@@ -63,6 +63,8 @@ function renderTable() {
     // 渲染表格内容
     for (var i = 0; i < selectedData.length; i++) {
         var goodstr = document.createElement("tr");
+        // 给每一行表格添加标识
+        goodstr.setAttribute("index", selectedData[i].region + " " + selectedData[i].product);
         for (var j in selectedData[i]) {
             if (j === 'sale') {
                 for (var k = 0; k < selectedData[i][j].length; k++) {

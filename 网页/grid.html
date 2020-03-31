@@ -4,6 +4,21 @@
 <head>
     <meta charset="utf-8">
     <title>表格</title>
+    <style>
+        .chart-container {
+            display: flex;
+            margin: 10px 0;
+        }
+
+        .bar-container {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .line-container {
+            flex: 1;
+        }
+    </style>
 </head>
 
 <body>
@@ -15,6 +30,13 @@
         <button id="search-btn">查询</button>
     </div>
 
+    <div id="chart-container" class="chart-container">
+        <div id="bar-container" class="bar-container"></div>
+        <div id="line-container" class="line-container">
+            <canvas id="canvas"></canvas>
+        </div>
+    </div>
+
     <div id="table-wrapper">
         <table border="1">
             <thead></thead>
@@ -22,6 +44,8 @@
         </table>
     </div>
 
+    <script src="./js/line.js"></script>
+    <script src="./js/bar.js"></script>
     <script src="./js/ife31data.js"></script>
     <script src="./js/checkbox.js"></script>
     <script src="./js/table.js"></script>
@@ -35,13 +59,36 @@
         var selectedData = [];
         var selectedRegions = [];
         var selectedProducts = [];
+        var sales = [];
 
         searchBtn.addEventListener("click", function () {
             goodsTable.innerHTML = "";
             getData();
             renderTable();
+            sales = [];
+            for (var i = 0; i < selectedData.length; i++) {
+                sales.push(selectedData[i]);
+            }
+            drawLine(sales);
         })
 
+        goodsTable.addEventListener("mouseover", function (e) {
+            var chartData = [];
+            if (e.target.tagName === 'TD') {
+                var region = e.target.parentNode.getAttribute("index").split(" ")[0];
+                var product = e.target.parentNode.getAttribute("index").split(" ")[1];
+                for (var i = 0; i < sourceData.length; i++) {
+                    if (sourceData[i].region === region && sourceData[i].product === product) {
+                        chartData.push(sourceData[i]);
+                    }
+                }
+                drawLine(chartData);
+                drawBar(chartData[0]);
+            }
+        })
+        goodsTable.addEventListener("mouseout", function () {
+            drawLine(sales);
+        })
         initData();
     </script>
 </body>

@@ -60,6 +60,15 @@
                 ctx.lineTo(60 + 50 * Math.cos(30 * Math.PI / 180), 200 - 50 * Math.sin(30 * Math.PI / 180))
                 ctx.strokeStyle = "red";
                 ctx.stroke();
+
+                // 云朵
+                ctx.beginPath();
+                ctx.moveTo(10, 400);
+                ctx.quadraticCurveTo(40, 350, 110, 370);
+                ctx.quadraticCurveTo(160, 300, 250, 370);
+                ctx.quadraticCurveTo(300, 350, 400, 400);
+                ctx.strokeStyle = "blue";
+                ctx.stroke();
             }
         }
     </script>
