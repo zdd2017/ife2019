@@ -18,6 +18,21 @@
         .line-container {
             flex: 1;
         }
+
+        #goods-table input {
+            width: 100px;
+            text-align: center;
+        }
+
+        td {
+            width: 100px;
+            text-align: center;
+        }
+
+        .edit {
+            border: 1px solid #000;
+            color: #333;
+        }
     </style>
 </head>
 
@@ -38,6 +53,7 @@
     </div>
 
     <div id="table-wrapper">
+        <button id="save">保存</button>
         <table border="1">
             <thead></thead>
             <tbody id="goods-table"></tbody>
@@ -51,11 +67,13 @@
     <script src="./js/table.js"></script>
     <script src="./js/app.js"></script>
     <script>
+        var wrapper = document.querySelector("body");
         var regionSelect = document.querySelector("#region-select-wrapper");
         var productSelect = document.querySelector("#product-select-wrapper");
         var tableWrapper = document.querySelector("#table-wrapper");
         var goodsTable = document.querySelector("#goods-table");
         var searchBtn = document.querySelector("#search-btn");
+        var saveBtn = document.querySelector("#save");
         var selectedData = [];
         var selectedRegions = [];
         var selectedProducts = [];
@@ -70,25 +88,50 @@
                 sales.push(selectedData[i]);
             }
             drawLine(sales);
+            var inputs = goodsTable.querySelectorAll("input");
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].addEventListener("blur", function (e) {
+                    if (!(/^(0|[1-9]\d*)$/.test(e.target.value))) {
+                        alert('请输入非负整数');
+                        e.target.value = '0';
+                    }
+                })
+            }
         })
 
         goodsTable.addEventListener("mouseover", function (e) {
             var chartData = [];
-            if (e.target.tagName === 'TD') {
-                var region = e.target.parentNode.getAttribute("index").split(" ")[0];
-                var product = e.target.parentNode.getAttribute("index").split(" ")[1];
-                for (var i = 0; i < sourceData.length; i++) {
-                    if (sourceData[i].region === region && sourceData[i].product === product) {
-                        chartData.push(sourceData[i]);
-                    }
+            // if (e.target.tagName === 'TR') {
+            var region = e.target.parentNode.getAttribute("index").split(" ")[0];
+            var product = e.target.parentNode.getAttribute("index").split(" ")[1];
+            for (var i = 0; i < sourceData.length; i++) {
+                if (sourceData[i].region === region && sourceData[i].product === product) {
+                    chartData.push(sourceData[i]);
                 }
-                drawLine(chartData);
-                drawBar(chartData[0]);
             }
+            drawLine(chartData);
+            drawBar(chartData[0]);
+            // }
         })
         goodsTable.addEventListener("mouseout", function () {
             drawLine(sales);
         })
+        saveBtn.addEventListener("click", function () {
+            if (goodsTable.querySelectorAll("tr")) {
+                var item = goodsTable.querySelectorAll("tr");
+                var salesItem = [];
+                for (var i = 0; i < item.length; i++) {
+                    salesItem = item[i].querySelectorAll("input");
+                    var salesArr = [];
+                    for (var j = 0; j < salesItem.length; j++) {
+                        salesArr.push(salesItem[j].value)
+                    }
+                    var key = item[i].getAttribute("index");
+                    localStorage.setItem(key, JSON.stringify(salesArr));
+                }
+            }
+        })
+        localStorage.clear()
         initData();
     </script>
 </body>

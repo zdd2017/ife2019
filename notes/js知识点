@@ -103,3 +103,16 @@ js清除表格数据保留表头：将表头放在<theader>标签里，内容放
 用svg画图
 document.createElementNS() 创建带有命名空间的元素节点
 求数组最大值，ES6: Math.max(arr); ES5: Math.max.apply(Math,arr)
+
+canvas
+文字水平垂直居中
+
+localStorage,sessionStorage 只能存储字符串
+
+DOM 节点
+HTML 文档中的所有内容都是节点：
+整个文档是一个文档节点
+每个 HTML 元素是元素节点
+HTML 元素内的文本是文本节点
+每个 HTML 属性是属性节点
+注释是注释节点

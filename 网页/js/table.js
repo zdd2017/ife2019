@@ -22,10 +22,16 @@ function getData() {
         if (selectedRegions.length === 1 && selectedProducts.length > 1) {
             for (var j = 0; j < selectedRegions.length; j++) {
                 if (sourceData[i].region === selectedRegions[j]) {
-                    for (var k = 0; k < selectedProducts.length; k++)
+                    for (var k = 0; k < selectedProducts.length; k++) {
                         if (sourceData[i].product === selectedProducts[k]) {
-                            selectedData.push(sourceData[i]);
+                            var salesStorage = JSON.parse(localStorage.getItem(sourceData[i].region + " " + sourceData[i].product));
+                            if (salesStorage) {
+                                selectedData.push({ product: sourceData[i].product, region: sourceData[i].region, sale: salesStorage })
+                            } else {
+                                selectedData.push(sourceData[i]);
+                            }
                         }
+                    }
                 }
             }
         } else {
@@ -33,7 +39,12 @@ function getData() {
                 if (sourceData[i].product === selectedProducts[j]) {
                     for (var k = 0; k < selectedRegions.length; k++)
                         if (sourceData[i].region === selectedRegions[k]) {
-                            selectedData.push(sourceData[i]);
+                            var salesStorage = JSON.parse(localStorage.getItem(sourceData[i].region + " " + sourceData[i].product));
+                            if (salesStorage) {
+                                selectedData.push({ product: sourceData[i].product, region: sourceData[i].region, sale: salesStorage })
+                            } else {
+                                selectedData.push(sourceData[i]);
+                            }
                         }
                 }
             }
@@ -43,6 +54,9 @@ function getData() {
 
 // 渲染表格
 function renderTable() {
+    var editFlag = false;
+    var curTd = "";
+    var preText = "";
     // 渲染表头
     var tableHead = document.querySelector("thead");
     var text = ""
@@ -69,9 +83,91 @@ function renderTable() {
             if (j === 'sale') {
                 for (var k = 0; k < selectedData[i][j].length; k++) {
                     var salestd = document.createElement("td");
+                    // var salesInput = document.createElement("input");
+                    // salesInput.value = selectedData[i][j][k];
                     var salestext = document.createTextNode(selectedData[i][j][k]);
                     salestd.appendChild(salestext);
                     goodstr.appendChild(salestd);
+                    salestd.addEventListener("mouseover", function (e) {
+                        e.stopPropagation();
+                        if (!editFlag) {
+                            var edit = document.createElement("span");
+                            edit.innerHTML = '编辑';
+                            edit.setAttribute('class', 'edit');
+                            e.target.appendChild(edit);
+                        }
+                    });
+                    salestd.addEventListener("mouseout", function (e) {
+                        e.stopPropagation();
+                        if (!editFlag) {
+                            var edit = e.target.querySelector("span");
+                            if (edit) {
+                                this.removeChild(edit);
+                            }
+                        }
+                    });
+                    salestd.addEventListener("click", function (e) {
+                        if (e.target.tagName === 'INPUT') {
+                            return;
+                        }
+                        if (e.target.tagName === 'TD') {
+                            if (editFlag && curTd) {
+                                curTd.innerHTML = preText;
+                                editFlag = false;
+                            }
+                            curTd = e.target;
+                        }
+                        e.stopPropagation();
+                        editFlag = true;
+                        var salesInput = document.createElement("input");
+                        preText = this.innerText.split("编辑")[0];
+                        salesInput.value = preText;
+                        var confirm = document.createElement("button");
+                        confirm.innerHTML = "确定";
+                        var cancel = document.createElement("button");
+                        cancel.innerHTML = "取消"
+                        this.innerHTML = ""
+                        this.appendChild(salesInput);
+                        this.appendChild(confirm);
+                        this.appendChild(cancel);
+                        salesInput.focus();
+                        confirm.addEventListener("click", function (event) {
+                            event.stopPropagation();
+                            if (!(/^(0|[1-9]\d*)$/.test(salesInput.value))) {
+                                alert('请输入非负整数');
+                            } else {
+                                event.target.parentNode.innerHTML = salesInput.value;
+                                editFlag = false;
+                            }
+
+                        })
+                        document.onkeydown = function (event) {
+                            if (editFlag) {
+                                if (event.keyCode === 13) {
+                                    if (!(/^(0|[1-9]\d*)$/.test(salesInput.value))) {
+                                        alert('请输入非负整数');
+                                    } else {
+                                        curTd.innerHTML = salesInput.value;
+                                        editFlag = false;
+                                    }
+                                } else if (event.keyCode === 27) {
+                                    curTd.innerHTML = preText;
+                                    editFlag = false;
+                                }
+                            }
+                        }
+                        cancel.addEventListener("click", function (event) {
+                            event.stopPropagation();
+                            this.parentNode.innerHTML = preText;
+                            editFlag = false;
+                        })
+                        wrapper.addEventListener("click", function (event) {
+                            if (editFlag) {
+                                curTd.innerHTML = preText;
+                                editFlag = false;
+                            }
+                        })
+                    })
                 }
             }
             else {
@@ -82,5 +178,6 @@ function renderTable() {
             }
             goodsTable.appendChild(goodstr)
         }
+
     }
 }
