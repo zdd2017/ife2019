@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>hashtest</title>
+</head>
+
+<body>
+    <button id="a">A</button>
+    <button id="b">B</button>
+    <button id="c">C</button>
+
+    <button id="d">D</button>
+    <button id="e">E</button>
+    <button id="f">F</button>
+
+
+    <div id="contABC"></div>
+    <div id="contDEF"></div>
+
+    <script>
+        var btns = document.querySelectorAll("button");
+        var contABC = document.querySelector("#contABC");
+        var contDEF = document.querySelector("#contDEF");
+        var ABC = "";
+        var DEF = "";
+        for (var i = 0; i < btns.length; i++) {
+            btns[i].addEventListener("click", function (e) {
+                var content = e.target.innerHTML;
+                if ('ABC'.indexOf(content) > -1) {
+                    ABC = content;
+                } else {
+                    DEF = content;
+                }
+                window.location.hash = ABC + '|' + DEF;
+            })
+        }
+
+        // 解析hash值
+        function getHash(url) {
+            return url.split("#")[1];
+        }
+
+        // hash改变时渲染内容
+        function render() {
+            if (window.location.hash) {
+                var hash = getHash(window.location.hash).split("|")
+                if (hash[0]) {
+                    contABC.innerHTML = hash[0];
+                }
+                if (hash[1]) {
+                    contDEF.innerHTML = hash[1];
+                }
+            }
+        }
+
+        window.onhashchange = render;
+        render();
+    </script>
+</body>
+
+</html>

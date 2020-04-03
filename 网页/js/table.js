@@ -3,6 +3,41 @@ function getData() {
     selectedData = [];
     var regions = regionSelect.querySelectorAll("input");
     var products = productSelect.querySelectorAll("input");
+
+    if (selectedRegions) {
+        for (var i = 0; i < selectedRegions.length; i++) {
+            for (var j = 0; j < regions.length; j++) {
+                if (selectedRegions[i] === regions[j].value) {
+                    regions[j].checked = true;
+
+                }
+            }
+        }
+
+        if (selectedRegions.length === regions.length - 1) {
+            for (var i = 0; i < regions.length; i++) {
+                if (regions[i].getAttribute("checkbox-type") === 'all') {
+                    regions[i].checked = true;
+                }
+            }
+        }
+        if (selectedProducts.length === products.length - 1) {
+            for (var i = 0; i < products.length; i++) {
+                if (products[i].getAttribute("checkbox-type") === 'all') {
+                    products[i].checked = true;
+                }
+            }
+        }
+    }
+    if (selectedProducts) {
+        for (var i = 0; i < selectedProducts.length; i++) {
+            for (var j = 0; j < products.length; j++) {
+                if (selectedProducts[i] === products[j].value) {
+                    products[j].checked = true;
+                }
+            }
+        }
+    }
     selectedRegions = [];
     selectedProducts = [];
     // 获取勾选地区
@@ -17,6 +52,7 @@ function getData() {
             selectedProducts.push(products[i].value);
         }
     }
+
     for (var i = 0; i < sourceData.length; i++) {
         // 选了一个地区和多个商品
         if (selectedRegions.length === 1 && selectedProducts.length > 1) {

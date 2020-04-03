@@ -65,6 +65,7 @@
     <script src="./js/ife31data.js"></script>
     <script src="./js/checkbox.js"></script>
     <script src="./js/table.js"></script>
+    <script src="./js/hash.js"></script>
     <script src="./js/app.js"></script>
     <script>
         var wrapper = document.querySelector("body");
@@ -78,9 +79,12 @@
         var selectedRegions = [];
         var selectedProducts = [];
         var sales = [];
+        var save = "";
 
         searchBtn.addEventListener("click", function () {
             goodsTable.innerHTML = "";
+            selectedRegions = [];
+            selectedProducts = [];
             getData();
             renderTable();
             sales = [];
@@ -88,6 +92,10 @@
                 sales.push(selectedData[i]);
             }
             drawLine(sales);
+
+            // 将选择利用hash保存在url中
+            saveForHash();
+
             var inputs = goodsTable.querySelectorAll("input");
             for (var i = 0; i < inputs.length; i++) {
                 inputs[i].addEventListener("blur", function (e) {
@@ -131,8 +139,13 @@
                 }
             }
         })
-        localStorage.clear()
+        localStorage.clear();
+        render();
         initData();
+        for (var i = 0; i < selectedData.length; i++) {
+            sales.push(selectedData[i]);
+        }
+        drawLine(sales);
     </script>
 </body>
 
