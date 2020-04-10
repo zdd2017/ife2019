@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <script>
+
+        // id
+        var id = 0;
+
+        //             餐厅类
+        // 属性：金钱，座位数量、职员列表
+        function Restaurant(obj) {
+            this.cash = obj.cash;
+            this.seats = obj.seats;
+            this.staff = obj.staff;
+        }
+
+        // 方法：招聘职员，解雇职员
+        Restaurant.prototype.hire = function (staff) {
+            this.staff.push(staff);
+        }
+
+        Restaurant.prototype.fire = function (staff) {
+            this.staff.forEach((element, index) => {
+                if (element.id === staff.id) {
+                    this.staff.splice(index, 1)
+                }
+            });
+        }
+
+        // 职员类
+        // 属性：ID，姓名，工资
+        function Staff(name, salary) {
+            id++;
+            this.id = id;
+            this.name = name;
+            this.salary = salary;
+        }
+        // 方法：完成一次工作
+        Staff.prototype.finish = function () {
+
+        }
+
+        // 服务员类，继承自职员
+        // 完成一次工作：如果参数是个数组，则记录客人点菜，如果参数不是数组则是上菜行为
+        function Server(name, salary) {
+            Staff.call(this, name, salary);
+        }
+        Server.prototype.finish = function (data) {
+            if (typeof data === 'ARRAY') {
+                this.dishes = data;
+            } else {
+
+            }
+        }
+        // 厨师类，继承自职员
+        // 完成一次工作：烹饪出菜品
+        function Cook(name, salary) {
+            Staff.call(this, name, salary);
+        }
+        Cook.prototype.finish = function () { }
+
+        // 顾客类
+        // 方法：点菜，吃
+        function Customer() { };
+        Customer.prototype.order = function () { }
+        Customer.prototype.eat = function () { }
+
+        // 菜品类
+        // 属性：名字、烹饪成本、价格
+        function Dish(obj) {
+            this.name = obj.name;
+            this.cost = obj.cost;
+            this.price = obj.price;
+        }
+
+        //测试
+        var ifeRestaurant = new Restaurant({
+            cash: 1000000,
+            seats: 20,
+            staff: []
+        });
+
+        var newCook = new Cook("Tony", 10000);
+        ifeRestaurant.hire(newCook);
+
+        console.log(ifeRestaurant.staff);
+
+        ifeRestaurant.fire(newCook);
+        console.log(ifeRestaurant.staff);
+    </script>
+</body>
+
+</html>
