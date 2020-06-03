@@ -7,6 +7,26 @@
 
 <body>
     <script>
+        // 菜单
+        var menus = [
+            new Dish({
+                name: '鸡',
+                price: 20,
+                cost: 10
+            }),
+            new Dish({
+                name: '鸭',
+                price: 20,
+                cost: 10
+            }),
+            new Dish({
+                name: '鹅',
+                price: 20,
+                cost: 10
+            })]
+
+
+        // 厨师类
         var cooker = (function () {
             var cooker = null;
             function Cooker() {
@@ -29,6 +49,7 @@
             }
         })()
 
+        // 服务员类
         var service = (function () {
             var serviceInstance = null;
             function Service() {
@@ -37,12 +58,22 @@
                 constructor: Service,
                 order: function () {
                     console.log("order")
-                    var food = consumer.getInstance().order(menus)
+                    var food = consumerList[i].order(menus)
                     cooker.getInstance().cook(food)
                 },
                 serverDish: function () {
                     console.log('serverDish')
-                    consumer.getInstance().eat()
+                    consumerList[i].eat()
+                },
+                // 招呼客人入座
+                helpConsumer: function () {
+                    if (i < (consumerList.length - 1)) {
+                        i++
+                        console.log('next')
+                        consumerList[i].callService()
+                    } else {
+                        console.log('closed')
+                    }
                 }
             }
             return {
@@ -56,61 +87,42 @@
             }
         })()
 
-        var consumer = (function () {
-            var consumerInstance = null;
-            function Consumer() {
-            }
-            Consumer.prototype = {
-                constructor: Consumer,
-                order: function (foods) {
-                    console.log("order")
-                    var foodsLen = menus.length
-                    var index = Math.random() * foodsLen
-                    return foodsLen[index]
-                },
-                callService: function () {
-                    console.log("call service")
-                    service.getInstance().order()
-                },
-                eat: function () {
-                    console.log('eat')
-                    setTimeout(function () {
-                        if (i < (consumerList.length - 1)) {
-                            i++
-                            consumer.getInstance().callService()
-                        } else {
-                            console.log('closed')
-                        }
+        // 顾客类
+        function Consumer() {
 
-                    }, 3000)
-                }
-            }
-            return {
-                name: 'consumer',
-                getInstance: function () {
-                    if (!consumerInstance) {
-                        consumerInstance = new Consumer()
-                    }
-                    return consumerInstance
-                }
-            }
-        })()
+        }
+        Consumer.prototype.order = function (foods) {
+            console.log("order")
+            var foodsLen = menus.length
+            var index = Math.random() * foodsLen
+            return foodsLen[index]
+        }
+        Consumer.prototype.callService = function () {
+            console.log("call service")
+            service.getInstance().order()
+        }
+        Consumer.prototype.eat = function () {
+            console.log('eat')
+            setTimeout(service.getInstance().helpConsumer, 3000)
+        }
 
-        var consumerList = ['a', 'b', 'c'];
-        var menus = [{
-            name: '鸡',
-            price: 20
-        }, {
-            name: '鸭',
-            price: 20
-        }, {
-            name: '鹅',
-            price: 20
-        }]
+        // 顾客列表
+        var consumerList = [new Consumer(), new Consumer(), new Consumer()];
+
         var i = 0
-
-        consumer.getInstance().callService()
+        consumerList[i].callService()
+        // 菜品类
+        // 属性：名字、烹饪成本、价格
+        function Dish(obj) {
+            this.name = obj.name;
+            this.cost = obj.cost;
+            this.price = obj.price;
+        }
     </script>
 </body>
 
 </html>
+
+<!-- 核心思想：一个类只有一个实例。利用闭包创建私有作用域，创建实例时先判断存不存在 -->
+<!-- 想当然把顾客也写成了单例模式 -->
+<!-- 通过互相调用不同类的方法实现互相通信 -->
