@@ -47,10 +47,10 @@
 
         // 服务员类，继承自职员
         // 完成一次工作：如果参数是个数组，则记录客人点菜，如果参数不是数组则是上菜行为
-        function Server(name, salary) {
+        function Service(name, salary) {
             Staff.call(this, name, salary);
         }
-        Server.prototype.finish = function (data) {
+        Service.prototype.finish = function (data) {
             if (typeof data === 'ARRAY') {
                 this.dishes = data;
             } else {

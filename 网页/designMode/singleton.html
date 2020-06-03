@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <script>
+        var cooker = (function () {
+            var cooker = null;
+            function Cooker() {
+            }
+            Cooker.prototype = {
+                constructor: Cooker,
+                cook: function (food) {
+                    console.log("cook food")
+                    service.getInstance().serverDish()
+                }
+            }
+            return {
+                name: 'cooker',
+                getInstance: function () {
+                    if (!cooker) {
+                        cooker = new Cooker()
+                    }
+                    return cooker
+                }
+            }
+        })()
+
+        var service = (function () {
+            var serviceInstance = null;
+            function Service() {
+            }
+            Service.prototype = {
+                constructor: Service,
+                order: function () {
+                    console.log("order")
+                    var food = consumer.getInstance().order(menus)
+                    cooker.getInstance().cook(food)
+                },
+                serverDish: function () {
+                    console.log('serverDish')
+                    consumer.getInstance().eat()
+                }
+            }
+            return {
+                name: 'service',
+                getInstance: function () {
+                    if (!serviceInstance) {
+                        serviceInstance = new Service()
+                    }
+                    return serviceInstance
+                }
+            }
+        })()
+
+        var consumer = (function () {
+            var consumerInstance = null;
+            function Consumer() {
+            }
+            Consumer.prototype = {
+                constructor: Consumer,
+                order: function (foods) {
+                    console.log("order")
+                    var foodsLen = menus.length
+                    var index = Math.random() * foodsLen
+                    return foodsLen[index]
+                },
+                callService: function () {
+                    console.log("call service")
+                    service.getInstance().order()
+                },
+                eat: function () {
+                    console.log('eat')
+                    setTimeout(function () {
+                        if (i < (consumerList.length - 1)) {
+                            i++
+                            consumer.getInstance().callService()
+                        } else {
+                            console.log('closed')
+                        }
+
+                    }, 3000)
+                }
+            }
+            return {
+                name: 'consumer',
+                getInstance: function () {
+                    if (!consumerInstance) {
+                        consumerInstance = new Consumer()
+                    }
+                    return consumerInstance
+                }
+            }
+        })()
+
+        var consumerList = ['a', 'b', 'c'];
+        var menus = [{
+            name: '鸡',
+            price: 20
+        }, {
+            name: '鸭',
+            price: 20
+        }, {
+            name: '鹅',
+            price: 20
+        }]
+        var i = 0
+
+        consumer.getInstance().callService()
+    </script>
+</body>
+
+</html>
